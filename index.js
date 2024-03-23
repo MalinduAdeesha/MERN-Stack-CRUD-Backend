@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from "./routes/user_routes.js";
+import adminRoutes from "./routes/admin_routes.js";
 import path from "path";
 import multer from 'multer';
 
@@ -24,6 +25,7 @@ mongoose.connect(URL).then(() => {
 }).catch(error => console.log(error));
 
 app.use("/api", userRoutes);
+app.use("/admin", adminRoutes);
 
 
 const storage = multer.diskStorage({
