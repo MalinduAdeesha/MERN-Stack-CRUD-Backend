@@ -24,29 +24,29 @@ export const createAdmin = async (req, res) => {
 };
 
 export const getOne = async (req, res) => {
-  console.log("get function");
+  // console.log("get function");
+  console.log("email : ", req.body.email);
+  console.log("pass : ", req.body.password);
   try {
     const userData = await Admin.findOne({ email: req.body.email });
-    console.log(userData);
-    if (userData) {
-      if (userData.password === req.body.password) {
-        userData.password = "";
-        res.status(200).json({
-          message: "Admin found",
-          userData,
+    // console.log(userData);
+    if (!userData) {
+      res.status(400).json({
+        message: "Admin not found",
+      });
+    } else {
+      if (userData.password != req.body.password) {
+        res.status(400).json({
+          message: "Wrong password",
         });
       } else {
-        res.status(400).json({
-          message: "Password is incorrect",
+        res.status(200).json({
+          message: "Admin can log now",
+          userData,
         });
       }
     }
-    res.status(400).json({
-      message: "Admin not found"
-    });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    console.log(error);
   }
 };
